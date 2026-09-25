@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Breeding Grounds | Born to Perform. Breed to Win.</title>
+
+  <meta
+    name="description"
+    content="Breeding Grounds Laboratory — breed unique AI vehicles, create Green Slips, build your Garage and join the community."
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #070809;
+      color: #f4f4f4;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 8, 9, 0.96);
+      border-bottom: 1px solid #25282b;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      max-width: 1400px;
+      margin: auto;
+      min-height: 76px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border: 2px solid #d9d9d9;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+    }
+
+    .brand-text span {
+      display: block;
+    }
+
+    .brand-main {
+      font-size: 16px;
+    }
+
+    .brand-sub {
+      color: #777;
+      font-size: 9px;
+      letter-spacing: 3px;
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      padding: 10px 12px;
+      color: #aaa;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      border-radius: 6px;
+    }
+
+    .nav-links a:hover {
+      color: white;
+      background: #17191b;
+    }
+
+    /* =========================
+       HERO
+       ========================= */
+
+    .hero {
+      min-height: 680px;
+      max-width: 1400px;
+      margin: auto;
+      padding: 90px 24px 70px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(48px, 7vw, 96px);
+      line-height: 0.9;
+      letter-spacing: -5px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 span {
+      color: #888;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      margin-top: 28px;
+      color: #aaa;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 34px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      border: 1px solid #444;
+      background: #16181a;
+      color: white;
+      padding: 15px 22px;
+      border-radius: 6px;
+      font-weight: 900;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background: #24272a;
+    }
+
+    .button-primary {
+      background: #d71920;
+      border-color: #d71920;
+    }
+
+    .button-primary:hover {
+      background: #ef252c;
+    }
+
+    .hero-lab {
+      min-height: 430px;
+      border: 1px solid #292d30;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 50% 35%, #25292d 0%, #101214 40%, #090a0b 72%);
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    .dna {
+      width: 180px;
+      height: 300px;
+      position: relative;
+      opacity: 0.9;
+    }
+
+    .dna::before,
+    .dna::after {
+      content: "";
+      position: absolute;
+      width: 4px;
+      height: 100%;
+      border-radius: 10px;
+      background: #aaa;
+      left: 36%;
+    }
+
+    .dna::after {
+      left: 64%;
+    }
+
+    .dna-line {
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      height: 3px;
+      background: #777;
+      transform-origin: center;
+    }
+
+    .dna-line:nth-child(1) { top: 12%; transform: rotate(22deg); }
+    .dna-line:nth-child(2) { top: 25%; transform: rotate(-22deg); }
+    .dna-line:nth-child(3) { top: 38%; transform: rotate(22deg); }
+    .dna-line:nth-child(4) { top: 51%; transform: rotate(-22deg); }
+    .dna-line:nth-child(5) { top: 64%; transform: rotate(22deg); }
+    .dna-line:nth-child(6) { top: 77%; transform: rotate(-22deg); }
+    .dna-line:nth-child(7) { top: 90%; transform: rotate(22deg); }
+
+    .lab-label {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      font-size: 10px;
+      color: #777;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       BREED PANEL
+       ========================= */
+
+    .section {
+      max-width: 1400px;
+      margin: auto;
+      padding: 80px 24px;
+    }
+
+    .section-header {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 38px;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+
+    .section-description {
+      color: #888;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    .breed-panel {
+      border: 1px solid #292d30;
+      border-radius: 12px;
+      background: #101214;
+      padding: 30px;
+    }
+
+    .vehicle-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 9px;
+      color: #777;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .field input {
+      width: 100%;
+      border: 1px solid #33383c;
+      border-radius: 6px;
+      background: #08090a;
+      color: white;
+      padding: 16px;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: #777;
+    }
+
+    .breed-action {
+      margin-top: 20px;
+    }
+
+    .breed-status {
+      margin-top: 20px;
+      padding: 14px;
+      border: 1px dashed #303438;
+      color: #777;
+      font-size: 12px;
+    }
+
+    /* =========================
+       FEATURE GRID
+       ========================= */
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .feature-card {
+      min-height: 210px;
+      padding: 24px;
+      border: 1px solid #292d30;
+      border-radius: 10px;
+      background: #101214;
+    }
+
+    .feature-number {
+      color: #555;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .feature-card h3 {
+      margin: 55px 0 10px;
+      text-transform: uppercase;
+      font-size: 19px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: #777;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       GREEN SLIP
+       ========================= */
+
+    .green-slip {
+      max-width: 900px;
+      margin: auto;
+      border: 1px solid #35423a;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0c110e;
+    }
+
+    .green-slip-top {
+      padding: 25px;
+      border-bottom: 1px solid #35423a;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .green-slip-title {
+      font-weight: 900;
+      font-size: 24px;
+      text-transform: uppercase;
+    }
+
+    .green-slip-id {
+      color: #6e8b75;
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat {
+      padding: 24px;
+      border-right: 1px solid #263129;
+      border-bottom: 1px solid #263129;
+    }
+
+    .stat-label {
+      color: #637268;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .stat-value {
+      margin-top: 8px;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    footer {
+      border-top: 1px solid #24272a;
+      padding: 35px 24px;
+      text-align: center;
+      color: #555;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .nav {
+        padding: 12px 16px;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 60px 18px;
+      }
+
+      .hero h1 {
+        font-size: 54px;
+        letter-spacing: -3px;
+      }
+
+      .vehicle-inputs,
+      .feature-grid,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 60px 18px;
+      }
+
+      .breed-panel {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================
+       NAVIGATION
+       ========================================= -->
+
+  <header class="topbar">
+    <nav class="nav">
+
+      <a href="#" class="brand">
+        <div class="brand-mark">BG</div>
+
+        <div class="brand-text">
+          <span class="brand-main">BREEDING GROUNDS</span>
+          <span class="brand-sub">LABORATORY</span>
+        </div>
+      </a>
+
+      <div class="nav-links">
+        <a href="#breed">Breed</a>
+        <a href="#garage">Garage</a>
+        <a href="#community">Community</a>
+        <a href="#photo-hub">Photo Hub</a>
+        <a href="#green-slips">Green Slips</a>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <!-- =========================================
+       HERO
+       ========================================= -->
+
+  <main>
+
+    <section class="hero">
+
+      <div>
+
+        <div class="eyebrow">
+          Breeding Grounds Laboratory // V3.0
+        </div>
+
+        <h1>
+          Born to<br />
+          <span>Perform.</span><br />
+          Breed to Win.
+        </h1>
+
+        <p class="hero-copy">
+          Enter two vehicles. Combine their DNA. Create something
+          that has never existed before.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#breed" class="button button-primary">
+            Start Breeding
+          </a>
+
+          <a href="#garage" class="button">
+            Enter Garage
+          </a>
+        </div>
+
+      </div>
+
+      <div class="hero-lab">
+
+        <div class="dna">
+          <div class="dna-line"></div>
+          <div class="dna-line"></div>
+          <div class="dna-line"></div>
+          <div class="dna-line"></div>
+          <div class="dna-line"></div>
+          <div class="dna-line"></div>
+          <div class="dna-line"></div>
+        </div>
+
+        <div class="lab-label">
+          Vehicle DNA // System Online
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         BREED
+         ========================================= -->
+
+    <section id="breed" class="section">
+
+      <div class="section-header">
+
+        <div class="eyebrow">
+          Laboratory // Genetic Breeding
+        </div>
+
+        <h2 class="section-title">
+          Create Your Offspring
+        </h2>
+
+        <p class="section-description">
+          Choose two donor vehicles. Breeding Grounds will identify
+          their vehicle data, research missing vehicles when necessary,
+          combine their characteristics and create a unique offspring.
+        </p>
+
+      </div>
+
+      <div class="breed-panel">
+
+        <div class="vehicle-inputs">
+
+          <div class="field">
+            <label for="vehicle1">
+              Donor Vehicle 01
+            </label>
+
+            <input
+              id="vehicle1"
+              type="text"
+              placeholder="e.g. Ford Capri RS2600"
+            />
+          </div>
+
+          <div class="field">
+            <label for="vehicle2">
+              Donor Vehicle 02
+            </label>
+
+            <input
+              id="vehicle2"
+              type="text"
+              placeholder="e.g. Ford Escort RS Turbo"
+            />
+          </div>
+
+        </div>
+
+        <div class="breed-action">
+
+          <button
+            id="breedButton"
+            class="button button-primary"
+            type="button"
+          >
+            Begin DNA Breeding
+          </button>
+
+        </div>
+
+        <div id="breedStatus" class="breed-status">
+          SYSTEM READY // Awaiting donor vehicles
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SYSTEM
+         ========================================= -->
+
+    <section class="section">
+
+      <div class="section-header">
+
+        <div class="eyebrow">
+          Breeding Grounds Ecosystem
+        </div>
+
+        <h2 class="section-title">
+          The Laboratory
+        </h2>
+
+      </div>
+
+      <div class="feature-grid">
+
+        <article class="feature-card">
+          <div class="feature-number">01 // BREED</div>
+          <h3>Breeding</h3>
+          <p>
+            Combine two vehicles and create a completely new
+            automotive offspring.
+          </p>
+        </article>
+
+        <article id="garage" class="feature-card">
+          <div class="feature-number">02 // GARAGE</div>
+          <h3>Garage</h3>
+          <p>
+            Store your bred vehicles, generations, DNA profiles
+            and Green Slips in your personal collection.
+          </p>
+        </article>
+
+        <article id="community" class="feature-card">
+          <div class="feature-number">03 // COMMUNITY</div>
+          <h3>Community</h3>
+          <p>
+            Share your creations, discover other breeders and
+            build a community around automotive DNA.
+          </p>
+        </article>
+
+        <article id="photo-hub" class="feature-card">
+          <div class="feature-number">04 // PHOTO HUB</div>
+          <h3>Photo Hub</h3>
+          <p>
+            Showcase generated vehicles, photography, builds
+            and cinematic Breeding Grounds creations.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         GREEN SLIP
+         ========================================= -->
+
+    <section id="green-slips" class="section">
+
+      <div class="section-header">
+
+        <div class="eyebrow">
+          Vehicle Identity // Performance Card
+        </div>
+
+        <h2 class="section-title">
+          Green Slips
+        </h2>
+
+        <p class="section-description">
+          Every successful offspring can become a unique Green Slip
+          with its own DNA identity and performance profile.
+        </p>
+
+      </div>
+
+      <div class="green-slip">
+
+        <div class="green-slip-top">
+
+          <div>
+            <div class="green-slip-title">
+              BREEDING GROUNDS
+            </div>
+
+            <div class="green-slip-id">
+              GREEN SLIP // AWAITING OFFSPRING
+            </div>
+          </div>
+
+          <div class="green-slip-id">
+            GEN // 001
+          </div>
+
+        </div>
+
+        <div class="stats">
+
+          <div class="stat">
+            <div class="stat-label">Power</div>
+            <div class="stat-value">---</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">Torque</div>
+            <div class="stat-value">---</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">Weight</div>
+            <div class="stat-value">---</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">0–60 MPH</div>
+            <div class="stat-value">---</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">Top Speed</div>
+            <div class="stat-value">---</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">UK MPG</div>
+            <div class="stat-value">---</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================
+       FOOTER
+       ========================================= -->
+
+  <footer>
+    BREEDING GROUNDS LABORATORY // V3.0.0
+    <br />
+    BORN TO PERFORM. BREED TO WIN.
+  </footer>
+
+
+  <!-- =========================================
+       V3 FRONTEND LOGIC
+       ========================================= -->
+
+  <script>
+
+    const breedButton =
+      document.getElementById("breedButton");
+
+    const breedStatus =
+      document.getElementById("breedStatus");
+
+    breedButton.addEventListener("click", async () => {
+
+      const vehicle1 =
+        document.getElementById("vehicle1").value.trim();
+
+      const vehicle2 =
+        document.getElementById("vehicle2").value.trim();
+
+      if (!vehicle1 || !vehicle2) {
+
+        breedStatus.textContent =
+          "SYSTEM ERROR // TWO DONOR VEHICLES REQUIRED";
+
+        return;
+      }
+
+      breedStatus.textContent =
+        "SYSTEM READY // V3 BREEDING PIPELINE CONNECTING...";
+
+      try {
+
+        const response =
+          await fetch("/api/breed", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              vehicle1,
+              vehicle2
+            })
+          });
+
+        const result =
+          await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            result.error || "BREEDING_FAILED"
+          );
+        }
+
+        breedStatus.textContent =
+          result.message ||
+          "BREEDING PIPELINE READY";
+
+      } catch (error) {
+
+        console.error(error);
+
+        breedStatus.textContent =
+          "SYSTEM ERROR // BREEDING SERVICE UNAVAILABLE";
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
