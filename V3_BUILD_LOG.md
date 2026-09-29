@@ -454,3 +454,41 @@ V3 repository established:
 Initial frontend, backend and package foundation created.
 
 Permanent build log established.
+---
+
+## CURRENT CHECKPOINT — 29 SEPTEMBER 2026
+
+### V3 infrastructure connection COMPLETE
+
+- GitHub repository: `B-bot-rgb/BreedingGroundsV3`
+- Branch: `main`
+- Vercel project: `breeding-grounds-v3`
+- Vercel Production deployment: ONLINE
+- New Supabase project: `The Breeding Grounds V3`
+- Supabase connection: **CONNECTED**
+- `/api/health`: **PASS**
+- Database status: **TRUE**
+- V3 database schema: **CREATED**
+- Supabase Auth structure: **READY**
+- `SUPABASE_URL`: configured in Vercel Production
+- `SUPABASE_SERVICE_ROLE_KEY`: configured in Vercel Production
+- 0–60 MPH is the only acceleration field used by V3.
+- 0–62 MPH is NOT part of V3.
+
+### NEXT BUILD PHASE
+
+Build the V3 application shell and customer flow:
+
+1. V3 homepage
+2. Supabase Auth account creation/login
+3. Breeder profile
+4. Vehicle directory
+5. Vehicle research system
+6. AI breeding flow
+7. Offspring generation
+8. Garage
+9. Green Slip cards
+10. Community/photo hub
+11. Trophies and progression
+
+**Current phase: V3 FOUNDATION COMPLETE → APPLICATION BUILD STARTING**
