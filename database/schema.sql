@@ -12,19 +12,17 @@
 -- ============================================================
 
 create table if not exists breeders (
-  id uuid primary key default gen_random_uuid(),
+  id uuid primary key references auth.users(id) on delete cascade,
 
   username text unique not null,
-  email text unique not null,
-
   display_name text,
+
   avatar_url text,
   bio text,
 
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 
 -- ============================================================
 -- VEHICLE DIRECTORY
