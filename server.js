@@ -299,11 +299,12 @@ app.get("/api/vehicles/research", async (req, res) => {
     console.log("VEHICLE_RESEARCH_START", vehicleName);
 
     const research = await researchVehicle(vehicleName);
-
+const savedResearch = await saveResearchResult(vehicleName, research);
     res.json({
       ok: true,
       vehicle: vehicleName,
-      research
+      research,
+savedResearch
     });
   } catch (error) {
     console.error("VEHICLE_RESEARCH_ERROR", error);
