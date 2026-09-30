@@ -820,11 +820,94 @@ Required JSON:
   return JSON.parse(response.text);
 }
 
-async function createOffspring(breederId, breedingId, profile) {
+
+async function generateOffspringImage(donor1, donor2, profile) {
+  if (!gemini) {
+    throw new Error("GEMINI_NOT_CONFIGURED");
+  }
+
+  const prompt = `
+Create a photorealistic automotive reveal image for Breeding Grounds Laboratory.
+
+The vehicle is a completely original AI-bred performance car created from the visual DNA of:
+
+DONOR 1:
+${donor1.name}
+
+DONOR 2:
+${donor2.name}
+
+OFFSPRING:
+${profile.name}
+${profile.manufacturer} ${profile.model}
+Generation: ${profile.generation}
+Variant: ${profile.variant}
+
+DNA DESCRIPTION:
+${profile.dna_description}
+
+IMPORTANT:
+- Create ONE finished vehicle.
+- The result must visibly combine design DNA from both donor vehicles.
+- Do not simply place the two donor cars together.
+- Do not create a collage.
+- Do not show multiple cars.
+- The offspring must look like a believable production performance car.
+- Preserve recognizable influences from both donors while creating a new design.
+- Aggressive but realistic proportions.
+- High-end automotive photography.
+- Dark Breeding Grounds Laboratory environment.
+- Dramatic studio lighting.
+- Vehicle shown in a three-quarter front view.
+- Full vehicle visible.
+- Sharp bodywork and realistic materials.
+- No people.
+- No text.
+- No logos added by the AI.
+- No fantasy elements.
+- Photorealistic.
+- Cinematic automotive advertising quality.
+`;
+
+  const response = await gemini.models.generateContent({
+    model: "gemini-3.1-flash-image",
+    contents: prompt,
+    config: {
+      responseModalities: ["TEXT", "IMAGE"],
+      responseFormat: {
+        image: {
+          aspectRatio: "16:9",
+          imageSize: "1K"
+        }
+      }
+    }
+  });
+
+  const parts = response.candidates?.[0]?.content?.parts || [];
+
+  const imagePart = parts.find(
+    part => part.inlineData?.data
+  );
+
+  if (!imagePart?.inlineData?.data) {
+    throw new Error("OFFSPRING_IMAGE_GENERATION_FAILED");
+  }
+
+  const mimeType = imagePart.inlineData.mimeType || "image/png";
+
+  return `data:${mimeType};base64,${imagePart.inlineData.data}`;
+}
+async function createOffspring(breederId, breedingId, donor1, donor2, profile) {
   const db = await requireSupabase();
 
   const breedRating = calculateBreedRating(profile);
   const dnaId = makeDnaId();
+
+  const imageUrl = await generateOffspringImage(
+    donor1,
+    donor2,
+    profile
+  );
 
   const { data, error } = await db
     .from("offspring")
@@ -845,7 +928,8 @@ async function createOffspring(breederId, breedingId, profile) {
       top_speed_mph: profile.top_speed_mph,
       combined_mpg_uk: profile.combined_mpg_uk,
       breed_rating: breedRating,
-      rating_class: ratingClass(breedRating)
+      rating_class: ratingClass(breedRating),
+      image_url: imageUrl
     })
     .select()
     .single();
@@ -861,7 +945,8 @@ async function createOffspring(breederId, breedingId, profile) {
     ...data,
     dna_description: profile.dna_description
   };
-}
+}    
+   
 
 app.post("/api/breed", async (req, res) => {
   try {
