@@ -281,7 +281,40 @@ app.get("/api/vehicles/search", async (req, res) => {
     });
   }
 });
+/* =========================================================
+   VEHICLE RESEARCH API
+   ========================================================= */
 
+app.get("/api/vehicles/research", async (req, res) => {
+  try {
+    const vehicleName = String(req.query.vehicle || "").trim();
+
+    if (!vehicleName) {
+      return res.status(400).json({
+        ok: false,
+        error: "VEHICLE_NAME_REQUIRED"
+      });
+    }
+
+    console.log("VEHICLE_RESEARCH_START", vehicleName);
+
+    const research = await researchVehicle(vehicleName);
+
+    res.json({
+      ok: true,
+      vehicle: vehicleName,
+      research
+    });
+  } catch (error) {
+    console.error("VEHICLE_RESEARCH_ERROR", error);
+
+    res.status(500).json({
+      ok: false,
+      error: "VEHICLE_RESEARCH_FAILED",
+      message: error.message
+    });
+  }
+});
 /* =========================================================
    BREEDING ENGINE PLACEHOLDER
    ========================================================= */
