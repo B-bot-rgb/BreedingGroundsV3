@@ -367,6 +367,51 @@ manufacturer: research.manufacturer || null,
   return data;
 }
 /* =========================================================
+   VEHICLE VERIFICATION
+   ========================================================= */
+
+async function verifyStagedVehicle(stagingId) {
+  if (!supabase) {
+    throw new Error("DATABASE_NOT_CONFIGURED");
+  }
+
+  const { data: stagedVehicle, error: fetchError } = await supabase
+    .from("vehicle_specs_staging")
+    .select("*")
+    .eq("id", stagingId)
+    .single();
+
+  if (fetchError) {
+    console.error("VEHICLE_VERIFY_FETCH_ERROR", fetchError);
+    throw fetchError;
+  }
+
+  if (!stagedVehicle) {
+    throw new Error("STAGING_VEHICLE_NOT_FOUND");
+  }
+
+  if (stagedVehicle.status !== "UNVERIFIED") {
+    throw new Error("VEHICLE_NOT_AWAITING_VERIFICATION");
+  }
+
+  const { data, error } = await supabase
+    .from("vehicle_specs_staging")
+    .update({
+      status: "VERIFIED",
+      next_action: "RATIFY"
+    })
+    .eq("id", stagingId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("VEHICLE_VERIFY_UPDATE_ERROR", error);
+    throw error;
+  }
+
+  return data;
+}
+/* =========================================================
    BREEDING ENGINE PLACEHOLDER
    ========================================================= */
 
