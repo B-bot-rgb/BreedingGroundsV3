@@ -492,3 +492,41 @@ Build the V3 application shell and customer flow:
 11. Trophies and progression
 
 **Current phase: V3 FOUNDATION COMPLETE → APPLICATION BUILD STARTING**
+---
+
+## CHECKPOINT — 30 SEPTEMBER 2026
+
+### V3 HOMEPAGE LIVE
+
+- V3 homepage successfully deployed to Vercel.
+- `breeding-grounds-v3.vercel.app` is serving the V3 frontend.
+- Express homepage route is working.
+- `public/index.html` confirmed live.
+- V3 dark laboratory visual system is active.
+- Breeding interface is present.
+- Garage section is present.
+- Community section is present.
+- Photo Hub section is present.
+- Green Slip section is present.
+- Performance display uses **0–60 MPH only**.
+- Supabase V3 connection remains operational.
+- Gemini API key configured in Vercel Production.
+- V3 remains completely separate from the original Breeding Grounds application.
+
+### CURRENT BUILD STATUS
+
+**V3 FOUNDATION + LIVE FRONTEND COMPLETE**
+
+### NEXT BUILD PHASE
+
+Build the V3 Vehicle Research Engine:
+
+1. Connect Gemini research system.
+2. Research missing vehicles.
+3. Return structured vehicle data.
+4. Save research into V3 staging.
+5. Verify/ratify vehicle data.
+6. Promote verified vehicles into `vehicle_specs`.
+7. Use verified data in the breeding engine.
+
+**Current phase: VEHICLE RESEARCH ENGINE**
