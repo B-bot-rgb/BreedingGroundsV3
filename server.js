@@ -412,6 +412,39 @@ async function verifyStagedVehicle(stagingId) {
   return data;
 }
 /* =========================================================
+   VEHICLE VERIFICATION API
+   ========================================================= */
+
+app.post("/api/vehicles/verify", async (req, res) => {
+  try {
+    const { stagingId } = req.body || {};
+
+    if (!stagingId) {
+      return res.status(400).json({
+        ok: false,
+        error: "STAGING_ID_REQUIRED"
+      });
+    }
+
+    console.log("VEHICLE_VERIFY_START", stagingId);
+
+    const verifiedVehicle = await verifyStagedVehicle(stagingId);
+
+    res.json({
+      ok: true,
+      verifiedVehicle
+    });
+  } catch (error) {
+    console.error("VEHICLE_VERIFY_ERROR", error);
+
+    res.status(500).json({
+      ok: false,
+      error: "VEHICLE_VERIFICATION_FAILED",
+      message: error.message
+    });
+  }
+});
+/* =========================================================
    BREEDING ENGINE PLACEHOLDER
    ========================================================= */
 
