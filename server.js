@@ -66,7 +66,39 @@ app.get("/api/health", (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+/* =========================================================
+   GEMINI CONNECTION TEST
+   ========================================================= */
 
+app.get("/api/gemini-test", async (req, res) => {
+  try {
+    if (!gemini) {
+      return res.status(500).json({
+        ok: false,
+        error: "GEMINI_NOT_CONFIGURED"
+      });
+    }
+
+    const response = await gemini.models.generateContent({
+      model: "gemini-3.8-flash",
+      contents: "Reply with exactly: BREEDING GROUNDS V3 GEMINI ONLINE"
+    });
+
+    res.json({
+      ok: true,
+      model: "gemini-3.8-flash",
+      response: response.text
+    });
+  } catch (error) {
+    console.error("GEMINI_TEST_ERROR", error);
+
+    res.status(500).json({
+      ok: false,
+      error: "GEMINI_CONNECTION_FAILED",
+      message: error.message
+    });
+  }
+});
 /* =========================================================
    VEHICLE LOOKUP
    ========================================================= */
