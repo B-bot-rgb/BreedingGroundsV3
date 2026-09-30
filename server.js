@@ -334,8 +334,10 @@ async function saveResearchResult(vehicleName, research) {
     .from("vehicle_specs_staging")
     .insert({
       name: research.name || vehicleName,
+vehicle_name: vehicleName,
+manufacturer: research.manufacturer || null,
       
-      manufacturer: research.manufacturer || null,
+      
       model: research.model || null,
       generation: research.generation || null,
       variant: research.variant || null,
