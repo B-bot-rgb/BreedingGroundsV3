@@ -100,6 +100,101 @@ app.get("/api/gemini-test", async (req, res) => {
   }
 });
 /* =========================================================
+   VEHICLE RESEARCH ENGINE
+   ========================================================= */
+
+async function researchVehicle(vehicleName) {
+  if (!gemini) {
+    throw new Error("GEMINI_NOT_CONFIGURED");
+  }
+
+  const prompt = `
+You are the Breeding Grounds V3 Vehicle Research Engine.
+
+Research this exact vehicle:
+
+${vehicleName}
+
+Use Google Search to find reliable real-world automotive sources.
+
+Return ONLY valid JSON matching the required structure.
+
+Research rules:
+
+1. Identify the correct vehicle and exact variant where possible.
+2. Do not guess or invent specifications.
+3. If a specification cannot be reliably established, return null.
+4. Use horsepower in bhp.
+5. Use torque in Nm.
+6. Use kerb weight in kg where available.
+7. Use 0-60 mph only.
+8. Use top speed in mph.
+9. Use combined UK MPG where reliably available.
+10. Record the most useful source URL.
+11. Record the source type.
+12. Give a confidence value of HIGH, MEDIUM or LOW.
+13. Put important uncertainty or conflicting information in notes.
+14. Do not substitute figures from a different generation or variant.
+
+The research must be suitable for use in a vehicle performance database.
+
+Vehicle name:
+${vehicleName}
+`;
+
+  const response = await gemini.models.generateContent({
+    model: "gemini-3.8-flash",
+    contents: prompt,
+    config: {
+      tools: [
+        {
+          googleSearch: {}
+        }
+      ],
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: "object",
+        properties: {
+          name: { type: "string" },
+          manufacturer: { type: "string" },
+          model: { type: "string" },
+          generation: { type: ["string", "null"] },
+          variant: { type: ["string", "null"] },
+          power_bhp: { type: ["number", "null"] },
+          torque_nm: { type: ["number", "null"] },
+          weight_kg: { type: ["number", "null"] },
+          acceleration_0_60_mph: { type: ["number", "null"] },
+          top_speed_mph: { type: ["number", "null"] },
+          combined_mpg_uk: { type: ["number", "null"] },
+          source_url: { type: ["string", "null"] },
+          source_type: { type: ["string", "null"] },
+          confidence: { type: "string" },
+          notes: { type: ["string", "null"] }
+        },
+        required: [
+          "name",
+          "manufacturer",
+          "model",
+          "generation",
+          "variant",
+          "power_bhp",
+          "torque_nm",
+          "weight_kg",
+          "acceleration_0_60_mph",
+          "top_speed_mph",
+          "combined_mpg_uk",
+          "source_url",
+          "source_type",
+          "confidence",
+          "notes"
+        ]
+      }
+    }
+  });
+
+  return JSON.parse(response.text);
+}
+/* =========================================================
    VEHICLE LOOKUP
    ========================================================= */
 
