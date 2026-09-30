@@ -316,6 +316,54 @@ app.get("/api/vehicles/research", async (req, res) => {
   }
 });
 /* =========================================================
+   VEHICLE RESEARCH STAGING
+   ========================================================= */
+
+async function saveResearchResult(vehicleName, research) {
+  if (!supabase) {
+    throw new Error("DATABASE_NOT_CONFIGURED");
+  }
+
+  const normalizedName = vehicleName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+  const { data, error } = await supabase
+    .from("vehicle_specs_staging")
+    .insert({
+      name: research.name || vehicleName,
+      
+      manufacturer: research.manufacturer || null,
+      model: research.model || null,
+      generation: research.generation || null,
+      variant: research.variant || null,
+      normalized_name: normalizedName,
+      power_bhp: research.power_bhp ?? null,
+      torque_nm: research.torque_nm ?? null,
+      weight_kg: research.weight_kg ?? null,
+      acceleration_0_60_mph: research.acceleration_0_60_mph ?? null,
+      top_speed_mph: research.top_speed_mph ?? null,
+      combined_mpg_uk: research.combined_mpg_uk ?? null,
+      source_url: research.source_url || null,
+      source_type: research.source_type || null,
+      confidence: research.confidence || null,
+      notes: research.notes || null,
+      status: "UNVERIFIED",
+      next_action: "VERIFY",
+      researched_at: new Date().toISOString()
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error("VEHICLE_STAGING_SAVE_ERROR", error);
+    throw error;
+  }
+
+  return data;
+}
+/* =========================================================
    BREEDING ENGINE PLACEHOLDER
    ========================================================= */
 
