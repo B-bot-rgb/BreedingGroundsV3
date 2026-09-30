@@ -980,11 +980,13 @@ app.post("/api/breed", async (req, res) => {
     );
 
     const profile = await buildOffspringProfile(donor1, donor2);
-    const offspring = await createOffspring(
-      breeder.id,
-      breeding.id,
-      profile
-    );
+   const offspring = await createOffspring(
+  breeder.id,
+  breeding.id,
+  donor1,
+  donor2,
+  profile
+);
 
     res.json({
       ok: true,
