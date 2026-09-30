@@ -464,6 +464,38 @@ app.post("/api/breed", async (req, res) => {
       The important architectural rule is:
 
       vehicle lookup
+      /* =========================================================
+   VEHICLE VERIFICATION TEST
+   TEMPORARY
+   ========================================================= */
+
+app.get("/api/vehicles/verify-test", async (req, res) => {
+  try {
+    const stagingId = String(req.query.stagingId || "").trim();
+
+    if (!stagingId) {
+      return res.status(400).json({
+        ok: false,
+        error: "STAGING_ID_REQUIRED"
+      });
+    }
+
+    const verifiedVehicle = await verifyStagedVehicle(stagingId);
+
+    res.json({
+      ok: true,
+      verifiedVehicle
+    });
+  } catch (error) {
+    console.error("VEHICLE_VERIFY_TEST_ERROR", error);
+
+    res.status(500).json({
+      ok: false,
+      error: "VEHICLE_VERIFICATION_TEST_FAILED",
+      message: error.message
+    });
+  }
+});
         ->
       research fallback
         ->
