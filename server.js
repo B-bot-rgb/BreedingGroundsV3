@@ -447,24 +447,7 @@ app.post("/api/vehicles/verify", async (req, res) => {
 /* =========================================================
    BREEDING ENGINE PLACEHOLDER
    ========================================================= */
-
-app.post("/api/breed", async (req, res) => {
-  try {
-    const { vehicle1, vehicle2 } = req.body || {};
-
-    if (!vehicle1 || !vehicle2) {
-      return res.status(400).json({
-        error: "TWO_VEHICLES_REQUIRED"
-      });
-    }
-
-    /*
-      V3 breeding engine will be added here.
-
-      The important architectural rule is:
-
-      vehicle lookup
-      /* =========================================================
+/* =========================================================
    VEHICLE VERIFICATION TEST
    TEMPORARY
    ========================================================= */
@@ -496,6 +479,23 @@ app.get("/api/vehicles/verify-test", async (req, res) => {
     });
   }
 });
+app.post("/api/breed", async (req, res) => {
+  try {
+    const { vehicle1, vehicle2 } = req.body || {};
+
+    if (!vehicle1 || !vehicle2) {
+      return res.status(400).json({
+        error: "TWO_VEHICLES_REQUIRED"
+      });
+    }
+
+    /*
+      V3 breeding engine will be added here.
+
+      The important architectural rule is:
+
+      vehicle lookup
+  
 
     res.json({
       ok: true,
