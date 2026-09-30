@@ -496,19 +496,6 @@ app.get("/api/vehicles/verify-test", async (req, res) => {
     });
   }
 });
-        ->
-      research fallback
-        ->
-      staging save
-        ->
-      breeding
-        ->
-      offspring
-        ->
-      Green Slip
-        ->
-      Garage
-    */
 
     res.json({
       ok: true,
